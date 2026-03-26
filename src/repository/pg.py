@@ -8,6 +8,7 @@ async def connection(get_pool) -> asyncpg.Pool:
     async with connection_pool.acquire() as conn:
         yield conn
 
+
 class AsyncPGConnection:
     def __init__(self, get_pool):
         self.get_pool = get_pool
@@ -44,8 +45,7 @@ class PG:
     async def execute(self, query: str, *args, **kwargs):
         async with connection(self.get_pool) as conn:
             record = await conn.fetchrow(query, *args, **kwargs)
-            return dict(record) if record is not None else None       
-    
+            return dict(record) if record is not None else None
 
     async def fetch(self, query: str, *args, **kwargs):
         async with connection(self.get_pool) as conn:

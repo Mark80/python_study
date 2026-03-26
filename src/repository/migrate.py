@@ -5,7 +5,7 @@ from src.repository import pg
 
 
 class Migration:
-    def __init__(self,  pg: pg.PG, migration_folder: str):
+    def __init__(self, pg: pg.PG, migration_folder: str):
         self.migration_folder = migration_folder
         self.pg = pg
 
@@ -17,11 +17,9 @@ class Migration:
             migrations_dir = Path.cwd() / migrations_dir
 
         migrations_scripts = [
-            f
-            for f in listdir(migrations_dir)
-            if isfile(join(migrations_dir, f))
+            f for f in listdir(migrations_dir) if isfile(join(migrations_dir, f))
         ]
-        
+
         for script in sorted(migrations_scripts):
             with open(migrations_dir / script, "r") as sql_file:
                 sql = sql_file.read()

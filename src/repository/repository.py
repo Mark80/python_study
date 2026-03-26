@@ -1,4 +1,3 @@
-import asyncpg
 from src import data_models
 from src.repository.pg import PG
 

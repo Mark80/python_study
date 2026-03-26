@@ -1,11 +1,11 @@
 import pytest
 import pytest_asyncio
-import asyncpg
 
 from src.data_models import User
 from src.repository.repository import Repository
 from src.repository.migrate import Migration
 from src.repository.pg import PG
+
 
 @pytest_asyncio.fixture
 async def connection():
@@ -26,6 +26,7 @@ async def connection():
     finally:
         await pg.execute("TRUNCATE TABLE users RESTART IDENTITY CASCADE;")
 
+
 @pytest.mark.asyncio
 async def test_get_all_users(connection):
 
@@ -37,4 +38,3 @@ async def test_get_all_users(connection):
     assert len(users) == 1
     assert users[0].name == "John Doe"
     assert users[0].email == "email@example.com"
-

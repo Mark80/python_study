@@ -3,8 +3,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Mapping
 
+
 @dataclass(frozen=True)
-class User: 
+class User:
     id: int
     name: str
     email: str
@@ -23,4 +24,4 @@ class User:
             id=int(data["id"]),
             name=str(data["name"]),
             email=str(data["email"]),
-        )       
+        )

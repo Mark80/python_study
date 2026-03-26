@@ -1,0 +1,21 @@
+{
+  "name": "studio",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "uv build --wheel",
+    "check-updated-lockfile": "pnpm run lock:poetry && git --no-pager diff --color --exit-code -I \"\\{url = .+, hash = .+\\}\" uv.lock",
+    "ci:qa": "pnpm run check-updated-lockfile && pnpm install:poetry && pnpm lint && pnpm typecheck && pnpm test",
+    "ci:test": "pnpm run ci:qa",
+    "format": "uv run ruff format src test",
+    "install": "uv sync --locked",
+    "install:poetry:prod": "uv sync --locked --no-dev",
+    "lint": "uv run ruff check src test && uv run ruff format --check src test",
+    "lock:poetry": "uv lock",
+    "test": "uv run pytest -vv",
+    "test:integration": "uv run pytest -vv --cov=src --cov-report term-missing --cov-report xml -m \"integration\"",
+    "test:unit": "uv run pytest -vv --cov=src --cov-report term-missing --cov-report xml -m \"not integration\"",
+    "typecheck": "uv run mypy src",
+    "update:poetry": "uv lock --upgrade",
+    "start": "uv run python -m src.main"
+  }
+}

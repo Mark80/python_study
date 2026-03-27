@@ -44,8 +44,8 @@ class PG:
 
     async def execute(self, query: str, *args, **kwargs):
         async with connection(self.get_pool) as conn:
-            record = await conn.fetchrow(query, *args, **kwargs)
-            return dict(record) if record is not None else None
+            async with conn.transaction():
+                await conn.execute(query, *args, **kwargs)
 
     async def fetch(self, query: str, *args, **kwargs):
         async with connection(self.get_pool) as conn:

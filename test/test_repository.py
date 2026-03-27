@@ -21,6 +21,7 @@ async def connection():
 
     migration = Migration(pg, "sql")
     await migration.execute()
+    await pg.execute("TRUNCATE TABLE users RESTART IDENTITY CASCADE;")
     try:
         yield pg
     finally:
@@ -38,3 +39,15 @@ async def test_get_all_users(connection):
     assert len(users) == 1
     assert users[0].name == "John Doe"
     assert users[0].email == "email@example.com"
+
+
+@pytest.mark.asyncio
+async def test_get_user_by_id(connection):
+
+    repository = Repository(connection)
+    user = User(id=1, name="John Doe", email="email@example.com")
+    await repository.insert_user(user)
+
+    user = await repository.get_by_id(1)
+
+    assert user.name == "John Doe"
